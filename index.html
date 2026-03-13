@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verifime — Exhibition Registration</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0d1117;
+      --navy2:  #161b22;
+      --blue:   #4f8ef7;
+      --blue2:  #3a7ae0;
+      --glow:   rgba(79,142,247,0.18);
+      --border: rgba(255,255,255,0.08);
+      --muted:  rgba(255,255,255,0.45);
+      --text:   #f0f4ff;
+    }
+
+    html, body {
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,142,247,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,247,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* soft radial glow behind card */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      animation: rise 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── header ── */
+    .header {
+      padding: 2.5rem 2.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 2px;
+      background: var(--blue);
+      border-radius: 2px;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: var(--blue);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg { width: 22px; height: 22px; }
+
+    .logo-name {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      color: #fff;
+    }
+
+    .header-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.4rem;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    /* ── body ── */
+    .body {
+      padding: 2rem 2.5rem 2.5rem;
+    }
+
+    .intro {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    input::placeholder { color: rgba(255,255,255,0.2); }
+
+    input:hover {
+      border-color: rgba(79,142,247,0.4);
+      background: rgba(255,255,255,0.06);
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px var(--glow);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 14px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn:hover  { background: var(--blue2); }
+    .btn:active { transform: scale(0.98); }
+
+    .btn .arrow { font-size: 16px; transition: transform 0.2s; }
+    .btn:hover .arrow { transform: translateX(3px); }
+
+    /* loading spinner */
+    .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn.loading .btn-label,
+    .btn.loading .arrow { display: none; }
+    .btn.loading .spinner { display: block; }
+    .btn.loading { pointer-events: none; }
+
+    /* error banner */
+    .error-banner {
+      display: none;
+      background: rgba(226,75,74,0.12);
+      border: 1px solid rgba(226,75,74,0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #f09595;
+      margin-bottom: 1rem;
+    }
+
+    /* ── success state ── */
+    .success {
+      display: none;
+      padding: 3rem 2.5rem;
+      text-align: center;
+    }
+
+    .check-circle {
+      width: 56px; height: 56px;
+      background: rgba(99,153,34,0.15);
+      border: 1px solid rgba(99,153,34,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+
+    .check-circle svg { width: 26px; height: 26px; }
+
+    .success h2 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .success p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── footer ── */
+    .footer {
+      padding: 1rem 2.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .footer svg { width: 13px; height: 13px; opacity: 0.5; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo-mark">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 2L3.5 6V11C3.5 15.4 6.9 19.4 11 20.5C15.1 19.4 18.5 15.4 18.5 11V6L11 2Z" fill="white" fill-opacity="0.9"/>
+          <path d="M7.5 11L10 13.5L14.5 8.5" stroke="#4f8ef7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="logo-name">Verifime</span>
+    </div>
+    <p class="header-sub">Exhibition 2026</p>
+    <h1 class="header-title">Register your interest</h1>
+  </div>
+
+  <!-- FORM — replace YOUR_FORM_ID below with your Formspree ID -->
+  <form
+    id="reg-form"
+    action="https://formspree.io/f/xbdzyqne"
+    method="POST"
+  >
+    <div class="body">
+      <p class="intro">
+        Welcome to the Verifime stand. Leave your details and our team will follow up with everything you need after the event.
+      </p>
+
+      <div class="error-banner" id="error-banner">
+        Something went wrong — please try again or email us directly.
+      </div>
+
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" placeholder="Jane Smith" required autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text" placeholder="Acme Ltd" required autocomplete="organization" />
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" placeholder="jane@acme.com" required autocomplete="email" />
+      </div>
+
+      <button type="submit" class="btn" id="submit-btn">
+        <span class="btn-label">Submit registration</span>
+        <span class="arrow">→</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+  </form>
+
+  <!-- success message shown after submission -->
+  <div class="success" id="success">
+    <div class="check-circle">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 12l5 5L19 7" stroke="#639922" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>You're registered!</h2>
+    <p>Thanks for stopping by. A member of the Verifime team will be in touch with you shortly.</p>
+  </div>
+
+  <div class="footer">
+    <svg viewBox="0 0 16 16" fill="none">
+      <rect x="2" y="7" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    Your details are kept private and used only to follow up after this event.
+  </div>
+
+</div>
+
+<script>
+  const form   = document.getElementById('reg-form');
+  const btn    = document.getElementById('submit-btn');
+  const banner = document.getElementById('error-banner');
+  const formEl = document.getElementById('reg-form');
+  const successEl = document.getElementById('success');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    banner.style.display = 'none';
+    btn.classList.add('loading');
+
+    try {
+      const data = new FormData(form);
+      const res  = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        formEl.style.display   = 'none';
+        successEl.style.display = 'block';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      banner.style.display = 'block';
+      btn.classList.remove('loading');
+    }
+  });
+</script>
+
+</body>
+</html>
