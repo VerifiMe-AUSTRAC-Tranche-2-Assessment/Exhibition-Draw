@@ -110,7 +110,7 @@
       </div>
 
       <!-- Form -->
-      <form action="https://send.pageclip.co/Sbi4PRn2OMliMUbh9guZte8eWjorIavp/draw-form" method="post" id="reg-form">
+      <form id="reg-form">
         <div class="space-y-5">
 
           <div>
@@ -159,21 +159,16 @@
 
   </div>
 
-  <script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
   <script>
     window.onload = function () {
       var form      = document.getElementById('reg-form');
       var successEl = document.getElementById('success');
       var backBtn   = document.getElementById('back-btn');
 
-      Pageclip.form(form, {
-        onResponse: function (error, response) {
-          if (!error) {
-            form.style.display      = 'none';
-            successEl.style.display = 'block';
-          }
-          return false;
-        }
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        form.style.display      = 'none';
+        successEl.style.display = 'block';
       });
 
       backBtn.addEventListener('click', function () {
